@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tabla de Verdad</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.40/css/uikit.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.40/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.40/js/uikit-icons.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            $('#button-generate').click(() => {
+                $('#true-table').removeAttr('hidden');
+                let countFirstCol = 0;
+                let countSecondCol = 0;
+                let firstCol = false;
+                let secondCol = false;
+                let thirdCol = false;
+                let tableHTML = ''
+                for (let i = 0; i < 8; i++) {
+                    if (countFirstCol == 4) {
+                        firstCol = !firstCol;
+                        countFirstCol = 0;
+                    }
+                    if (countSecondCol == 2) {
+                        secondCol = !secondCol;
+                        countSecondCol = 0;
+                    }
+                    tableHTML += '<tr><td>' + (firstCol ? '1' : '0') +
+                        '</td><td>' + (secondCol ? '1' : '0') + '</td><td>' +
+                        (thirdCol ? '1' : '0') + '</td><td>' + (!thirdCol ? '1' : '0') + 
+                        '</td><td>' + (firstCol || secondCol ? '1' : '0') + 
+                        '</td><td>' + (!thirdCol || secondCol ? '1' : '0') + 
+                        '</td><td>' + ((firstCol || secondCol) || (!thirdCol || secondCol) ? '1' : '0') + 
+                        '</td></tr>';
+                    thirdCol = !thirdCol;
+                    countFirstCol += 1;
+                    countSecondCol += 1;
+                }
+                $('#table-body').append(tableHTML);
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="uk-container-large uk-width-1-1" uk-height-viewport>
+        <div class="uk-grid uk-height-1-1">
+            <div class="uk-width-1-4" id="menu-panel">
+                <div class="uk-container">
+                    <h1 class="uk-heading-primary uk-text-bold uk-margin-top">Tabla de Verdad</h1>
+                    <ul class="uk-nav uk-nav-default">
+                        <li class="uk-nav-header">Men&uacute;</li>
+                        <li class="uk-nav-divider"></li>
+                        <li id="menu-play">
+                            <a href="#">
+                                <span uk-icon="play-circle"></span>&ensp;Iniciar
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="uk-width-3-4 uk-padding-remove" id="main-panel">
+                <div class="uk-container-large uk-animation-slide-top uk-background-muted uk-height-1-1" id="play">
+                    <div class="uk-container">
+                        <h1 class="uk-heading-bullet uk-margin-top">Iniciar aplicaci&oacute;n</h1>
+                        <div class="uk-container">
+                            <button class="uk-button uk-button-primary" type="button" id="button-generate" value="generate">
+                                <span uk-icon="bolt"></span>&ensp;Generar Tabla
+                            </button>
+                        </div>
+                        <div class="uk-container uk-margin-top" id="table-container">
+                            <table id="true-table" class="uk-table uk-table-striped uk-table-middle" hidden>
+                                <thead>
+                                    <tr>
+                                        <th>R</th>
+                                        <th>S</th>
+                                        <th>T</th>
+                                        <th>!T</th>
+                                        <th>R | | S</th>
+                                        <th>!T | | S</th>
+                                        <th>( R | | S ) | | ( !T | | S )</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
